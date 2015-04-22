@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Do I Need ECP??</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+
+  <script type='text/x-handlebars' data-template-name='application'>
+    <div class='navbar navbar-inverse'>
+      <div class='container'>       
+        <ul class='nav navbar-nav navbar-right'>
+          {{#link-to "index" tagName="li"}}<a href="#">Home</a>{{/link-to}}
+          {{#link-to "risks" tagName="li"}}<a href="#">Do I Need ECP?</a>{{/link-to}}          
+          {{#link-to "about" tagName="li"}}<a href="#">About</a>{{/link-to}}
+        </ul>
+      </div>
+    </div>
+    <div class='container'>
+      {{outlet}}
+    </div>
+    <footer class='container'>
+    </footer>
+  </script>
+
+  <script type="text/x-handlebars" id="index"> 
+    <div class="jumbotron">
+      <h1>New Change Management rules have you feeling confused?</h1>
+      <p>Click the button to find out if you need ECP.</p>
+      <p>{{#link-to "risks" tagName="button" class="btn btn-primary btn-lg"}}Do I Need ECP?{{/link-to}}</p>
+    </div>
+  </script>
+
+  <script type="text/x-handlebars" id="about">
+    <h1 class='text-center'>Are you down?</h1>
+
+    <!-- inline styles for responsive embed FTW -->
+    <style>.embed-container { position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden; max-width: 100%; height: auto; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='http://www.youtube.com/embed/gAX72a0DXrY' frameborder='0' allowfullscreen></iframe></div>
+  </script>
+
+  <script type="text/x-handlebars" id="risks">
+    <h1 class='text-center'>Check the boxes that best fit your change</h1>
+    <div class="panel-footer">Remember:  In addition to helping troubleshoot, documentation reduces risk by helping all of us stay "honest" in adhering to best practices.</div>
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Your change...</h3>
+            </div>
+            <div class="panel-body">
+              <form role="form">
+               {{#each}}
+                <div class="checkbox">
+                  <label>
+                    {{view Ember.Checkbox checkedBinding="isSelected"}}
+                    {{text}}
+                  </label>
+                </div>
+                {{/each}}
+              </form>
+            </div>
+           </div>
+        </div> 
+      <div class="col-lg-4">
+        <div {{bind-attr class=":panel needsECP:panel-danger:panel-info"}}>
+          <div class="panel-heading">
+            <h3 class="panel-title">You..</h3>
+          </div>
+          <div class="panel-body">
+             {{#if hasRisk}}
+              <div class="row">
+                <div class="col-lg-12">       
+                  {{#if needsECP}}
+                    <p>Your change is <strong>High Risk and will require ECP</strong>.</p>
+                  {{else}}
+                    <p>Your change is <strong>Medium Risk</strong>, but it will not require ECP.</p>
+                  {{/if}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <p><strong>All Medium and High risk changes must be documented using SBM's Change Management fields.</strong></p>
+                  <p>The fields that must be populated are:</p>
+                 <ul>                    
+                    <li>Code in Production: Populate with the date you intend to run the first step of your Production deployment. For changes to be rolled out over multiple days, the schedule should be detailed in the CM Change Description.</li>
+                    <li>Change Type: Select "Application" for all normal code and configuration changes.</li>
+                    <li>Risk: Add your assessment of the potential for client impact, and think about how you will explain your selection during the Review step.</li>
+                    <li>CM Change Description: Add technical details about your change, and the intended launch schedule if it will be rolled out over multiple days.</li>
+                    <li>QA: Indicate the steps you have taken to test your change up through Acceptance, and note any additions or changes for Production validation.</li>
+                    <li>Change Sets: Add a list of the items you will promote.</li>
+                    <li>Acceptance Testing Results: Document the results of your testing in Acceptance.</li>
+                    <li>Production Testing Results: To be completed after deployment, documenting successful (or unsuccessful) completion.</li>
+                 </ul>
+                </div>
+               </div>
+            {{else}}
+              <span>You do not need ECP...yet</span>
+            {{/if}}
+          </div>
+          
+        </div>
+      </div>      
+      <div class="col-lg-4">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+              <h3 class="panel-title">SBM Notes</h3>
+            </div>
+            <div class="panel-body">
+             <p><strong>Remember to document your change in SBM:</strong></p>
+               <ul>
+                  <li>The reason for the change.</li>
+                  <li>If the change will necessitate a traffic move out of a data center, this must be called out in the ticket.</li>
+                  <li>The ticket should be linked (using the "Assoc Clients" field) to clients that could be impacted by this change.</li>
+                  <li>Each change management ticket for a feature change or addition will include details on what client web site page will be tested to verify correct behavior.</li>                    
+               </ul>
+            </div>            
+        </div>     
+      </div>     
+    </div>
+  </script>
+
+  <!--<script type="text/x-handlebars" id="factors">
+    Aboot!
+    <ul>
+      {{#each}}
+        <li>{{text}}</li>
+      {{/each}}
+    </ul>
+  </script>
+
+  <script type="text/x-handlebars" id="change-management">
+
+  </script>-->
+
+  <script src="js/libs/jquery-1.10.2.js"></script>
+  <script src="js/libs/handlebars-1.1.2.js"></script>
+  <script src="js/libs/ember-1.4.0.js"></script>
+  <script src="js/libs/ember-data.js"></script>
+  <script src="js/app.js"></script>
+  <!-- to activate the test runner, add the "?test" query string parameter -->
+  <script src="tests/runner.js"></script>
+</body>
+</html>
